@@ -11,7 +11,6 @@
         <nav>
             <ul>
                 <li><a href="index.html">Главная</a></li>
-                <li><a href="components.html" class="active">Основные компоненты</a></li>
             </ul>
         </nav>
     </header>
@@ -51,7 +50,7 @@ cv2.destroyAllWindows()</code></pre>
 cv2.imshow('Оттенки серого', gray_image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()</code></pre>
-                    <img src="example1_grayscale.jpg" alt="Оттенки серого" width="500">
+                    <img src="gray_new.jpg" alt="Оттенки серого" width="500">
                 </article>
                 
                 <article>
@@ -60,7 +59,6 @@ cv2.destroyAllWindows()</code></pre>
 cv2.imshow('Альфа-канал', image_with_alpha)
 cv2.waitKey(0)
 cv2.destroyAllWindows()</code></pre>
-                    <img src="example_with_alpha.png" alt="Альфа-канал" width="500">
                 </article>
             </article>
             
@@ -75,16 +73,14 @@ image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 plt.imshow(image_rgb)
 plt.axis('off')
 plt.show()</code></pre>
-                <img src="example1_rgb.jpg" alt="Изображение в RGB" width="500">
+                <img src="example1.jpg" alt="Изображение в RGB" width="500">
             </article>
             
             <article>
                 <h2>Сохранение изображений</h2>
                 <h3>Примеры сохранения</h3>
                 <pre><code>cv2.imwrite('output_90.jpeg', image, [cv2.IMWRITE_JPEG_QUALITY, 90])</code></pre>
-                <img src="output_90.jpeg" alt="Качество 90%" width="500">
                 <pre><code>cv2.imwrite('output_with_alpha.png', image_with_alpha)</code></pre>
-                <img src="output_with_alpha.png" alt="Сохраненное изображение" width="500">
             </article>
         </section>
 

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поворот и сдвиг изображений</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+            </ul>
+        </nav>
+    </header>
+    <header>
+        <h1>Поворот и сдвиг изображений</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Поворот изображения</h2>
+            <p>Поворот изображения используется для изменения ориентации изображения на заданный угол.</p>
+            <p>В OpenCV есть функция <code>cv2.getRotationMatrix2D()</code>, которая генерирует матрицу поворота, и функция <code>cv2.warpAffine()</code>, которая применяет эту матрицу к изображению.</p>
+        </section>
+        <section>
+            <h3>Основы поворота изображения</h3>
+            <p>Чтобы повернуть изображение, нужно:</p>
+            <ol>
+                <li>Создать матрицу поворота.</li>
+                <li>Применить эту матрицу к изображению с использованием аффинного преобразования.</li>
+            </ol>
+            <div class="example">
+                <pre><code>matrix = cv2.getRotationMatrix2D(center, angle, scale)</code></pre>
+            </div>
+            <ul>
+                <li><strong>center</strong> — Центр поворота (координаты точки), вокруг которой происходит поворот. Это обычно центр изображения.</li>
+                <li><strong>angle</strong> — Угол поворота (в градусах). Положительное значение поворачивает изображение по часовой стрелке, а отрицательное — против.</li>
+                <li><strong>scale</strong> — Масштаб, который определяет, будет ли изображение увеличено или уменьшено после поворота.</li>
+            </ul>
+        </section>
+        <section>
+            <h3>Пример кода</h3>
+            <div class="example">
+                <pre><code>image = cv2.imread('example4.jpg') 
+show_image(image, "Опа чё могёт")
+height, width = image.shape[:2]
+center = (width // 2, height // 2)
+angle = 45
+scale = 1
+rotation_matrix = cv2.getRotationMatrix2D(center, angle, scale)
+rotated_image = cv2.warpAffine(image, rotation_matrix, (width, height))
+show_image(rotated_image, "Поехала")</code></pre>
+<img src="yiii.jpg" alt="Ой, а где" width="500">
+
+            </div>
+            <p>При повороте изображения его края могут быть пустыми, поскольку изображение может выйти за пределы оригинального размера.</p>
+            <p>В примере выше используем размеры исходного изображения (width, height), что может привести к тому, что часть изображения будет обрезана. Можно изменить размеры выходного изображения в зависимости от нужд, чтобы избежать потерь данных.</p>
+            <p>Попробуем это сделать:</p>
+            <code><pre>
+import numpy as np
+
+# Получение размеров изображения
+height, width = image.shape[:2]
+
+# Центр изображения
+center = (width // 2, height // 2)
+
+# Угол поворота
+angle = 45  # Поворот на 45 градусов
+
+# Масштаб (1 - без изменения масштаба)
+scale = 1
+
+# Получение матрицы поворота
+rotation_matrix = cv2.getRotationMatrix2D(center, angle, scale)
+
+# Сначала вычисляем новую ширину и высоту
+cos_angle = np.abs(rotation_matrix[0, 0])
+sin_angle = np.abs(rotation_matrix[0, 1])
+
+# Новые размеры
+new_width = int(height * sin_angle + width * cos_angle)
+new_height = int(height * cos_angle + width * sin_angle)
+
+# Обновляем матрицу поворота для учета новых размеров
+rotation_matrix[0, 2] += (new_width - width) / 2
+rotation_matrix[1, 2] += (new_height - height) / 2
+
+# Применяем поворот с новыми размерами
+rotated_image = cv2.warpAffine(image, rotation_matrix, (new_width, new_height))
+
+show_image(rotated_image, "Емае как некрасиво это всё... но зато сохранили фулл изображение")
+cv2.imwrite("emae.jpg", rotated_image)
+            </pre></code>
+            <img src="emae.jpg" alt="Бу!" width="500">
+        </section>
+        <section>
+            <h2>Сдвиг изображения</h2>
+            <p>Для выполнения сдвига изображения необходимо:</p>
+            <ol>
+                <li>Создать матрицу трансляции.</li>
+                <li>Применить эту матрицу к изображению с помощью функции <code>cv2.warpAffine()</code>.</li>
+            </ol>
+            <div class="example">
+                <pre><code>matrix = np.float32([[1, 0, tx], [0, 1, ty]])</code></pre>
+            </div>
+            <ul>
+                <li><strong>tx</strong> — Сдвиг по оси X.</li>
+                <li><strong>ty</strong> — Сдвиг по оси Y.</li>
+            </ul>
+        </section>
+        <section>
+            <h3>Пример кода</h3>
+            <div class="example">
+                <pre><code>height, width = image.shape[:2]
+tx = 420
+ty = -150
+translation_matrix = np.float32([[1, 0, tx], [0, 1, ty]])
+shifted_image = cv2.warpAffine(image, translation_matrix, (width, height))
+show_image(shifted_image, "Мяу")</code></pre>
+<img src="shifted_image.jpg" alt="Ой, а где" width="500">
+            </div>
+        </section>
+        <section>
+            <p>Часто требуется одновременно выполнять несколько геометрических преобразований, таких как и поворот, и сдвиг. Для этого можно комбинировать матрицы преобразования.</p>
+            <p>Для этого создаем матрицы поворота и сдвига, а затем перемножаем их.</p>
+            <p>Пример:</p>
+            <code><pre>
+# Центр изображения
+center = (width // 2, height // 2)
+
+# Угол поворота и масштаб
+angle = 45
+scale = 1
+
+# Матрица поворота
+rotation_matrix = cv2.getRotationMatrix2D(center, angle, scale)
+
+# Определение сдвига
+tx = 200
+ty = -250
+
+# Матрица трансляции
+translation_matrix = np.float32([[1, 0, tx], [0, 1, ty]])
+
+# Комбинированная матрица преобразования
+combined_matrix = np.dot(translation_matrix, np.vstack([rotation_matrix, [0, 0, 1]]))
+
+# Применение комбинированного преобразования
+transformed_image = cv2.warpAffine(image, combined_matrix[:2], (width, height))
+
+# Отображение результата
+show_image(transformed_image, "Ну вообще...")
+cv2.imwrite("shifted_image1.jpg", transformed_image)
+            </pre></code>
+            <img src="shifted_image1.jpg" alt="Ой, а где" width="500">
+        </section>
+        <section>
+            <h2>Зеркалирование изображений</h2>
+            <p>Зеркалирование изображения — это операция, при которой изображение отражается относительно одной из осей (горизонтальной, вертикальной или обеих осей).</p>
+            <ul>
+                <li><strong>Функция:</strong> <code>cv2.flip(image, flipCode)</code></li>
+                <li><strong>Параметры:</strong>
+                    <ul>
+                        <li><code>flipCode = 0</code>: Вертикальное зеркалирование.</li>
+                        <li><code>flipCode = 1</code>: Горизонтальное зеркалирование.</li>
+                        <li><code>flipCode = -1</code>: Зеркалирование относительно обеих осей.</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="example">
+                <pre><code>image = cv2.imread('example5.jpg')
+show_image(image, "Обычная")
+
+flipped_horizontally = cv2.flip(image, 1)
+flipped_vertically = cv2.flip(image, 0)
+flipped_both = cv2.flip(image, -1)
+
+show_image(flipped_horizontally, "Зеркальная")
+show_image(flipped_vertically, "Перевёртыш")
+show_image(flipped_both, "Зеркальный перевёртыш")</code></pre>
+
+<img src="example5.jpg" alt="Обычная" width="500">
+<img src="flipped_horizontally.jpg" alt="Ой, а где" width="500">
+<img src="flipped_vertically.jpg" alt="Ой, а где" width="500">
+<img src="flipped_both.jpg" alt="Ой, а где" width="500">
+            </div>
+        </section>
+    </main>
+</body>
+</html>
