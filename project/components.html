@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основные компоненты библиотеки OpenCV</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="components.html" class="active">Основные компоненты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h1>Основные компоненты библиотеки OpenCV</h1>
+            <p>OpenCV предоставляет мощные инструменты для работы с изображениями: загрузка, обработка, отображение и сохранение.</p>
+            
+            <article>
+                <h2>Загрузка изображений</h2>
+                <p>Для загрузки изображений используется функция <code>cv2.imread()</code>, которая преобразует изображение в массив NumPy.</p>
+                
+                <h3>Синтаксис <code>cv2.imread()</code></h3>
+                <pre><code>cv2.imread(filename, flags)</code></pre>
+                <ul>
+                    <li><code>cv2.IMREAD_COLOR</code> — цветное изображение (по умолчанию).</li>
+                    <li><code>cv2.IMREAD_GRAYSCALE</code> — изображение в оттенках серого.</li>
+                    <li><code>cv2.IMREAD_UNCHANGED</code> — сохранение альфа-канала.</li>
+                </ul>
+
+                <h3>Примеры загрузки изображений</h3>
+                <article>
+                    <h4>1. Цветное изображение</h4>
+                    <pre><code>import cv2
+
+image = cv2.imread('example1.jpg', cv2.IMREAD_COLOR)
+cv2.imshow('Загруженное изображение', image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()</code></pre>
+                    <img src="example1.jpg" alt="Цветное изображение" width="500">
+                </article>
+                
+                <article>
+                    <h4>2. Изображение в оттенках серого</h4>
+                    <pre><code>gray_image = cv2.imread('example1.jpg', cv2.IMREAD_GRAYSCALE)
+cv2.imshow('Оттенки серого', gray_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()</code></pre>
+                    <img src="example1_grayscale.jpg" alt="Оттенки серого" width="500">
+                </article>
+                
+                <article>
+                    <h4>3. Изображение с альфа-каналом</h4>
+                    <pre><code>image_with_alpha = cv2.imread('example_with_alpha.png', cv2.IMREAD_UNCHANGED)
+cv2.imshow('Альфа-канал', image_with_alpha)
+cv2.waitKey(0)
+cv2.destroyAllWindows()</code></pre>
+                    <img src="example_with_alpha.png" alt="Альфа-канал" width="500">
+                </article>
+            </article>
+            
+            <article>
+                <h2>Отображение изображений</h2>
+                <p>Для отображения используется <code>cv2.imshow()</code>. Для Google Colab применяйте Matplotlib:</p>
+                <pre><code>import cv2
+import matplotlib.pyplot as plt
+
+image = cv2.imread('example1.jpg')
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+plt.imshow(image_rgb)
+plt.axis('off')
+plt.show()</code></pre>
+                <img src="example1_rgb.jpg" alt="Изображение в RGB" width="500">
+            </article>
+            
+            <article>
+                <h2>Сохранение изображений</h2>
+                <h3>Примеры сохранения</h3>
+                <pre><code>cv2.imwrite('output_90.jpeg', image, [cv2.IMWRITE_JPEG_QUALITY, 90])</code></pre>
+                <img src="output_90.jpeg" alt="Качество 90%" width="500">
+                <pre><code>cv2.imwrite('output_with_alpha.png', image_with_alpha)</code></pre>
+                <img src="output_with_alpha.png" alt="Сохраненное изображение" width="500">
+            </article>
+        </section>
+
+        <section>
+            <p><a href="index.html">Вернуться на главную страницу</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 OpenCV Guide. Все права защищены.</p>
+    </footer>
+</body>
+</html>
