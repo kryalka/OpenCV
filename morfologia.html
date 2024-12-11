@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Морфологические операции в OpenCV</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <header>
+        <h1>Морфологические операции с OpenCV</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Морфологические операции</h2>
+            <h3>Описание и синтаксис</h3>
+            <p>Морфологические операции применяются для обработки бинарных изображений. Они используются для удаления шумов, заполнения пробелов и анализа структуры объектов.</p>
+            <p><strong>Основные функции:</strong></p>
+            <ul>
+                <li><code>cv2.erode</code>: эрозия — уменьшает объекты.</li>
+                <li><code>cv2.dilate</code>: дилатация — увеличивает объекты.</li>
+                <li><code>cv2.morphologyEx</code>: комбинации операций, такие как открытие и закрытие.</li>
+            </ul>
+            <p><strong>Синтаксис:</strong></p>
+            <pre><code>result = cv2.erode(image, kernel, iterations)
+result = cv2.dilate(image, kernel, iterations)
+result = cv2.morphologyEx(image, operation, kernel)</code></pre>
+            <ul>
+                <li><code>image</code>: входное изображение.</li>
+                <li><code>kernel</code>: ядро операции (матрица).</li>
+                <li><code>iterations</code>: количество повторений операции.</li>
+                <li><code>operation</code>: тип операции (<code>cv2.MORPH_OPEN</code>, <code>cv2.MORPH_CLOSE</code> и др.).</li>
+            </ul>
+            <pre><code>
+import cv2
+import numpy as np
+
+# Загрузка изображения
+image = cv2.imread("example3.jpg")
+
+# Проверка, удалось ли загрузить изображение
+if image is None:
+    print("Ошибка: не удалось загрузить изображение.")
+else:
+    # Определение ядра для морфологических операций
+    kernel = np.ones((5, 5), np.uint8)  # Ядро 5x5 из единиц
+
+    # Количество итераций
+    iterations = 1
+
+    # Применение эрозии
+    eroded = cv2.erode(image, kernel, iterations=iterations)
+
+    # Применение дилатации
+    dilated = cv2.dilate(image, kernel, iterations=iterations)
+
+    # Применение морфологической операции (например, открытие)
+    operation = cv2.MORPH_OPEN  # Вы можете выбрать другую операцию
+    morph_result = cv2.morphologyEx(image, operation, kernel)
+
+    # Сохранение или отображение результатов
+    cv2.imwrite("eroded.jpg", eroded)
+    cv2.imwrite("dilated.jpg", dilated)
+    cv2.imwrite("morph_result.jpg", morph_result)
+
+    # Отображение изображений (по желанию)
+    cv2.imshow("Eroded", eroded)
+    cv2.imshow("Dilated", dilated)
+    cv2.imshow("Morphological Result", morph_result)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+            </code></pre>
+            <p><strong>Исходное изображение:</strong></p>
+            <img src="photo/example3.jpg" alt="Исходное изображение" width="500">
+            <p><strong>Эрозия:</strong></p>
+            <img src="photo/1.png" alt="Исходное изображение" width="500">
+            <p><strong>Дилатация:</strong></p>
+            <img src="photo/2.png" alt="Исходное изображение" width="500">
+            <p><strong>Комбинация:</strong></p>
+            <img src="photo/3.png" alt="Исходное изображение" width="500">
+        </section>
+
+        <p>Рассмотрим подробнее:</p>
+        <section>
+            <h3>Эрозия</h3>
+            <pre><code>
+# Загрузка изображения
+image = cv2.imread("example3.jpg")
+
+# Проверка, удалось ли загрузить изображение
+if image is None:
+    print("Ошибка: не удалось загрузить изображение.")
+else:
+    # Определение ядра для морфологических операций
+    kernel = np.ones((5, 5), np.uint8)  # Ядро 5x5 из единиц
+
+for i in {1, 3, 5, 7, 10}:
+    # Количество итераций
+    iterations = i
+
+    # Применение эрозии
+    eroded = cv2.erode(image, kernel, iterations=iterations)
+
+
+    # Отображение изображений с помощью cv2_imshow
+    cv2_imshow(eroded)
+            </code></pre>
+            <p><strong>Исходное изображение:</strong></p>
+            <img src="photo/example3.jpg" alt="Исходное изображение" width="250">
+            <p><strong>i = 1</strong></p>
+            <img src="photo/с.png" alt="i = 1" width="250">
+            <p><strong>i = 3:</strong></p>
+            <img src="photo/сс.png" alt="i = 3" width="250">
+            <p><strong>i = 5:</strong></p>
+            <img src="photo/ссс.png" alt="i = 5" width="250">
+            <p><strong>i = 7:</strong></p>
+            <img src="photo/сссс.png" alt="i = 7" width="250">
+            <p><strong>i = 10:</strong></p>
+            <img src="photo/ссссс.png" alt="i = 10" width="250">
+            <p>Если вы увеличите количество итераций, эффект будет более заметным: объекты будут продолжать уменьшаться, и мелкие детали могут быть полностью удалены. Это полезно, если необходимо удалить шум или разделить объекты, которые слишком близко друг к другу.</p>
+        </section>
+
+        <section>
+            <h3>Дилатация</h3>
+            <pre><code>
+# Загрузка изображения
+image = cv2.imread("example3.jpg")
+
+# Проверка, удалось ли загрузить изображение
+if image is None:
+    print("Ошибка: не удалось загрузить изображение.")
+else:
+    # Определение ядра для морфологических операций
+    kernel = np.ones((5, 5), np.uint8)  # Ядро 5x5 из единиц
+
+for i in {1, 2, 3, 4, 5}:
+    # Количество итераций
+    iterations = i
+
+    # Применение делатации
+    dilated = cv2.dilate(image, kernel, iterations=iterations)
+
+
+    # Отображение изображений с помощью cv2_imshow
+    cv2_imshow(dilated)
+            </code></pre>
+<p><strong>Исходное изображение:</strong></p>
+<img src="photo/example3.jpg" alt="Исходное изображение" width="250">
+<p><strong>i = 1</strong></p>
+<img src="photo/z.png" alt="i = 1" width="250">
+<p><strong>i = 2:</strong></p>
+<img src="photo/zz.png" alt="i = 2" width="250">
+<p><strong>i = 3:</strong></p>
+<img src="photo/zzz.png" alt="i = 3" width="250">
+<p><strong>i = 4:</strong></p>
+<img src="photo/zzzz.png" alt="i = 4" width="250">
+<p><strong>i = 5:</strong></p>
+<img src="photo/zzzzz.png" alt="i = 5" width="250">
+<p>Если вы увеличите количество итераций, эффект будет более заметным: объекты будут продолжать увеличиваться, что может быть полезно для соединения близко расположенных объектов или заполнения пробелов.</p>
+        </section>
+
+        <section>
+            <h3>Операция закрытия</h3>
+            <pre><code>
+# Загрузка изображения
+image = cv2.imread("example3.jpg")
+
+# Проверка, удалось ли загрузить изображение
+if image is None:
+    print("Ошибка: не удалось загрузить изображение.")
+else:
+    # Определение ядра для морфологических операций
+    kernel = np.ones((5, 5), np.uint8)  # Ядро 5x5 из единиц
+
+    for i in {1, 2, 3, 4, 5}:  # Используйте квадратные скобки для списка
+        # Количество итераций
+        iterations = i
+
+        # Применение морфологической операции (например, открытие)
+        operation = cv2.MORPH_OPEN  # Вы можете выбрать другую операцию
+        morph_result = cv2.morphologyEx(image, operation, kernel, iterations=iterations)
+
+        # Отображение изображений с помощью cv2_imshow
+        cv2_imshow(morph_result)
+
+    cv2.destroyAllWindows()  # Закрыть все окна после завершения
+            </code></pre>
+            <p><strong>Исходное изображение:</strong></p>
+            <img src="photo/example3.jpg" alt="Исходное изображение" width="250">
+            <p><strong>i = 1</strong></p>
+            <img src="photo/l.png" alt="i = 1" width="250">
+            <p><strong>i = 2:</strong></p>
+            <img src="photo/ll.png" alt="i = 2" width="250">
+            <p><strong>i = 3:</strong></p>
+            <img src="photo/lll.png" alt="i = 3" width="250">
+            <p><strong>i = 4:</strong></p>
+            <img src="photo/llll.png" alt="i = 4" width="250">
+            <p><strong>i = 5:</strong></p>
+            <img src="photo/lllll.png" alt="i = 5" width="250">
+            <p>Объекты становятся более целостными, и мелкие отверстия заполняются. При большом количестве итераций объекты могут сливаться друг с другом.</p>
+        </section>
+        <section id="navigation">
+            <h2>Дальнейшее изучение</h2>
+            <p><a href="Gistogram.html">Перейти к разделу "Работа с гистограммами".</a></p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 OpenCV Guide. Все права защищены.</p>
+    </footer>
+</body>
+</html>

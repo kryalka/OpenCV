@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Арифметические операции над изображениями</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+            </ul>
+        </nav>
+    </header>
+    <header>
+        <h1>Арифметические операции над изображениями</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Зачем нужны арифметические операции?</h2>
+            <p>Арифметические операции с изображениями позволяют выполнять такие задачи, как наложение фильтров, слияние изображений, изменение яркости и контрастности. Мы рассмотрим три основные операции: сложение, вычитание и умножение.</p>
+        </section>
+
+        <section>
+            <h2>Сложение изображений</h2>
+            <p>Сложение пикселей используется для комбинирования двух изображений. Результирующее изображение получается путем поканального сложения яркостей пикселей:</p>
+            <pre><code>result_pixel = min(image1_pixel + image2_pixel, 255)</code></pre>
+            <p>Чтобы реализовать это, мы создаем функцию:</p>
+            <pre><code>
+def add_images(image1, image2):
+    # Приведение изображений к одному размеру (наименьшее из двух)
+    height = min(image1.shape[0], image2.shape[0])
+    width = min(image1.shape[1], image2.shape[1])
+
+    # Обрезка изображений до одинакового размера
+    image1_resized = image1[:height, :width]
+    image2_resized = image2[:height, :width]
+
+    # Сложение изображений
+    result = cv2.add(image1_resized, image2_resized)
+    return result
+
+# Функция для загрузки изображений
+def upload_images():
+    uploaded = files.upload()
+    images = []
+    for filename in uploaded.keys():
+        img = cv2.imread(filename)
+        if img is not None:
+            images.append(img)
+        else:
+            print(f"Не удалось загрузить {filename}")
+    return images
+
+# Загрузка изображений
+print("Загрузите два изображения:")
+images = upload_images()
+
+# Проверка на количество загруженных изображений
+if len(images) != 2:
+    print("Пожалуйста, загрузите ровно два изображения.")
+else:
+    # Сложение изображений
+    result_image = add_images(images[0], images[1])
+
+    # Отображение результатов
+    plt.figure(figsize=(10, 5))
+    
+    plt.subplot(1, 3, 1)
+    plt.title('Изображение 1')
+    plt.imshow(cv2.cvtColor(images[0], cv2.COLOR_BGR2RGB))
+    plt.axis('off')
+
+    plt.subplot(1, 3, 2)
+    plt.title('Изображение 2')
+    plt.imshow(cv2.cvtColor(images[1], cv2.COLOR_BGR2RGB))
+    plt.axis('off')
+
+    plt.subplot(1, 3, 3)
+    plt.title('Результат сложения')
+    plt.imshow(cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB))
+    plt.axis('off')
+
+    plt.show()
+    cv2.imwrite("result_image", result_image)
+            </code></pre>
+            <img src="photo/bybyby.png" alt="Результат сложения" width="600">
+            <figcaption>Результат сложения двух изображений.</figcaption>
+        </section>
+
+        <section>
+            <h2>Вычитание изображений</h2>
+            <p>Вычитание помогает найти разницу между изображениями. Пиксели вычисляются как разница с учетом границ яркости:</p>
+            <pre><code>result_pixel = max(image1_pixel - image2_pixel, 0)</code></pre>
+            <p>Реализация:</p>
+            <pre><code>
+def subtract_images(image1, image2):
+# Приведение изображений к одному размеру (наименьшее из двух)
+height = min(image1.shape[0], image2.shape[0])
+width = min(image1.shape[1], image2.shape[1])
+
+# Обрезка изображений до одинакового размера
+image1_resized = image1[:height, :width]
+image2_resized = image2[:height, :width]
+
+# Вычитание изображений с использованием NumPy
+result = image1_resized.astype(np.int16) - image2_resized.astype(np.int16)
+
+# Обработка отрицательных значений и приведение к uint8
+result[result < 0] = 0
+result = np.clip(result, 0, 255).astype(np.uint8)
+
+return result
+
+# Пример использования
+if __name__ == "__main__":
+# Загрузка изображений
+image1 = cv2.imread('example1.jpg')
+image2 = cv2.imread('example2.jpg')
+
+# Проверка на успешную загрузку изображений
+if image1 is None:
+print("Ошибка: Не удалось загрузить первое изображение.")
+exit()
+
+if image2 is None:
+print("Ошибка: Не удалось загрузить второе изображение.")
+exit()
+
+# Вычитание изображений
+result_image = subtract_images(image1, image2)
+
+# Отображение результата с использованием cv2_imshow
+cv2_imshow(result_image)
+            </code></pre>
+            <img src="photo/bybybyby.png" alt="Результат вычитания" width="300">
+            <figcaption>Результат вычитания второго изображения из первого.</figcaption>
+        </section>
+
+        <section>
+            <h2>Умножение изображений</h2>
+            <p>Умножение изображений полезно для изменения яркости, создания масок или наложения текстур:</p>
+            <pre><code>result_pixel = min(image1_pixel * factor, 255)</code></pre>
+            <p>Реализация с учетом масштабирования:</p>
+            <pre><code>
+def multiply_image(image, factor):
+    height, width, channels = image.shape
+    result = [[[
+        min(int(image[y][x][c] * factor), 255)
+        for c in range(channels)]
+        for x in range(width)]
+        for y in range(height)]
+    return np.array(result, dtype=np.uint8)
+
+# Пример использования
+if __name__ == "__main__":
+    # Загрузка изображения
+    image = cv2.imread('example1.jpg')
+
+    # Проверка на успешную загрузку изображения
+    if image is None:
+        print("Ошибка: Не удалось загрузить изображение.")
+        exit()
+
+    # Умножение изображения на коэффициент (например, 1.5)
+    factor = 5
+    result_image = multiply_image(image, factor)
+
+    factor = 0.5
+    result_image1 = multiply_image(image, factor)
+
+    # Отображение результата с использованием cv2_imshow
+    cv2_imshow(result_image)
+    cv2_imshow(result_image1)
+                
+</code></pre>
+            <img src="photo/111.png" alt="Результат умножения на 5" width="300">
+            <figcaption>Результат умножения на коэффициент 5.</figcaption>
+            <img src="photo/1111.png" alt="Результат умножения на 0.5" width="300">
+            <figcaption>Результат умножения на коэффициент 0.5.</figcaption>
+        </section>
+
+        <section id="navigation">
+            <h2>Дальнейшее изучение</h2>
+            <p><a href="texting.html">Перейти к разделу "Добавление текстов и форм".</a></p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 OpenCV Guide. Все права защищены.</p>
+    </footer>
+</body>
+</html>

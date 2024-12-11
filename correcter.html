@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Коррекция освещенности и контраста</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Коррекция освещенности и контраста</h1>
+
+        <section>
+            <h2>Изображение</h2>
+            <p>Для начала загрузим изображение, с которым будем работать. Это исходное изображение, которое будет использоваться для демонстрации различных методов коррекции:</p>
+            <pre><code>
+# Загрузка изображения с диска
+image = cv2.imread("example7.jpg")
+# Отображение изображения с заголовком "Лапка"
+show_image(image, "Лапка")
+</code></pre>
+            <img src="photo/example7.jpg" alt="Сепарабельное размытие" width="500">
+            <figcaption>Лапуля</figcaption>
+        </section>
+
+        <section>
+            <h2>Линейное преобразование</h2>
+            <p>Линейная коррекция яркости и контраста позволяет регулировать интенсивность пикселей изображения.  
+            Формула для преобразования: <em>I<sub>new</sub> = α · I<sub>old</sub> + β</em>, где:</p>
+            <ul>
+                <li>α: коэффициент контраста (scale factor), определяет, насколько усиливается контраст;</li>
+                <li>β: смещение яркости (bias), добавляет/вычитает значение ко всем пикселям.</li>
+            </ul>
+            <p>Пример кода:</p>
+            <pre><code>
+# Применение линейного преобразования
+adjusted = cv2.convertScaleAbs(image, alpha=1.2, beta=50)
+# Отображение скорректированного изображения
+show_image(adjusted, "аааа ярко")
+# Сохранение результата
+cv2.imwrite("p1.jpg", adjusted)
+</code></pre>
+            <img src="photo/d2.png" alt="Сепарабельное размытие" width="500">
+        </section>
+
+        <section>
+            <h2>Коррекция гаммы (Gamma Correction)</h2>
+            <p>Гамма-коррекция используется для управления яркостью изображения.  
+            Нелинейная формула: <em>I<sub>new</sub> = 255 · (I<sub>old</sub>/255)<sup>γ</sup></em>, где γ (гамма) контролирует уровень яркости:  
+            <ul>
+                <li>γ &lt; 1: изображение становится ярче;</li>
+                <li>γ &gt; 1: изображение становится темнее.</li>
+            </ul>
+            Пример применения:</p>
+            <pre><code>
+# Цикл для различных значений гаммы
+for gamma in range(1, 10):
+    # Создание таблицы преобразования для гаммы
+    look_up_table = np.array([((i / 255.0) ** gamma) * 255 for i in range(256)]).astype("uint8")
+    # Применение таблицы к изображению
+    corrected = cv2.LUT(image, look_up_table)
+    # Отображение результата
+    show_image(corrected, gamma)
+    # Сохранение результата
+    cv2.imwrite(f"pi{gamma}.jpg", corrected)
+</code></pre>
+            <p>Результаты для разных значений гаммы:</p>
+            <img src="photo/pi1.jpg" alt="Сепарабельное размытие" width="500">
+            <img src="photo/pi2.jpg" alt="Сепарабельное размытие" width="500">
+        </section>
+
+        <section>
+            <h2>Коррекция освещённости с использованием гистограммы</h2>
+            <h3>Выравнивание гистограммы</h3>
+            <p>Выравнивание гистограммы улучшает контраст, особенно на изображениях с неравномерным освещением.</p>
+            <p>Пример:</p>
+            <pre><code>
+# Преобразование изображения в градации серого
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+# Выравнивание гистограммы
+equalized = cv2.equalizeHist(gray)
+# Отображение результата
+show_image(equalized, "миленько")
+# Сохранение результата
+cv2.imwrite("p3.jpg", equalized)
+</code></pre>
+            <img src="photo/q.png" alt="Сепарабельное размытие" width="500">
+            <h3>CLAHE</h3>
+            <p>Метод CLAHE (Contrast Limited Adaptive Histogram Equalization) используется для локальной коррекции контраста.</p>
+            <pre><code>
+# Создание объекта CLAHE с заданными параметрами
+clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+# Преобразование изображения в градации серого
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+# Применение CLAHE
+clahe_result = clahe.apply(gray)
+# Отображение результата
+show_image(clahe_result, "как прошлое, только более четкое")
+# Сохранение результата
+cv2.imwrite("p4.jpg", clahe_result)
+</code></pre>
+            <img src="photo/q.png" alt="Сепарабельное размытие" width="500">
+        </section>
+        <section id="navigation">
+            <h2>Дальнейшее изучение</h2>
+            <p><a href="conture.html">Перейти к разделу "Работа с контурами".</a></p>
+        </section>
+    </main>
+    <footer>
+        <p>© 2024. Все права защищены.</p>
+    </footer>
+</body>
+</html>

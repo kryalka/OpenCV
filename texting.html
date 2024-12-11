@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление текста и форм в OpenCV</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <header>
+        <h1>Добавление текста и форм в OpenCV</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Добавление текста</h2>
+            <p>Для добавления текста на изображение в OpenCV используется функция <code>cv2.putText</code>.</p>
+            <h3>Описание и параметры</h3>
+            <ul>
+                <li><code>img</code>: изображение, на которое будет добавлен текст.</li>
+                <li><code>text</code>: текст, который нужно добавить.</li>
+                <li><code>org</code>: координаты начала текста (x, y).</li>
+                <li><code>font</code>: шрифт текста (например, <code>cv2.FONT_HERSHEY_SIMPLEX</code>).</li>
+                <li><code>fontScale</code>: масштаб шрифта.</li>
+                <li><code>color</code>: цвет текста (BGR, например, <code>(255, 0, 0)</code> для синего).</li>
+                <li><code>thickness</code>: толщина линии текста.</li>
+                <li><code>lineType</code>: тип линии (обычно <code>cv2.LINE_AA</code> для сглаживания).</li>
+            </ul>
+            <pre><code>
+# Загружаем изображение
+image = cv2.imread("example8.jpg")
+
+if image is None:
+    print("Ошибка: изображение не загружено.")
+else:
+    # Добавляем текст
+    text = "Mya"
+    org = (75, 100)  # Координаты начала текста
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    fontScale = 1
+    color = (255, 0, 0)  # Синий цвет
+    thickness = 2
+
+    cv2.putText(image, text, org, font, fontScale, color, thickness, cv2.LINE_AA)
+
+    # Сохраняем изображение
+    cv2.imwrite("text_result.jpg", image)
+
+    # Отображаем результат с использованием cv2_imshow
+    cv2_imshow(image)
+            </code></pre>
+            <p><strong>Результат:</strong></p>
+            <img src="photo/image.png" alt="Пример изображения с текстом" width="500">
+        </section>
+
+        <section>
+            <h2>Добавление форм</h2>
+            <p>В OpenCV можно добавлять различные формы: прямоугольники, круги, линии и многое другое. Рассмотрим основные функции.</p>
+
+            <h3>Прямоугольник</h3>
+            <p>Функция <code>cv2.rectangle</code> добавляет прямоугольник.</p>
+            <pre><code>
+cv2.rectangle(image, pt1, pt2, color, thickness)
+# pt1: координаты верхнего левого угла
+# pt2: координаты нижнего правого угла
+# color: цвет (например, (0, 255, 0) для зеленого)
+# thickness: толщина линии (-1 для заливки)
+            </code></pre>
+            <p>Пример:</p>
+            <pre><code>
+# Загружаем изображение
+image = cv2.imread("example8.jpg")
+
+if image is None:
+    print("Ошибка: изображение не загружено.")
+else:
+    color = (255, 0, 0)  # Синий цвет
+    thickness = 2
+    pt1 = (100, 100)
+    pt2 = (500, 500)
+    cv2.rectangle(image, pt1, pt2, color, thickness)
+    # pt1: координаты верхнего левого угла
+    # pt2: координаты нижнего правого угла
+    # color: цвет (например, (0, 255, 0) для зеленого)
+    # thickness: толщина линии (-1 для заливки)
+
+    # Сохраняем изображение
+    cv2.imwrite("text_result.jpg", image)
+
+    # Отображаем результат с использованием cv2_imshow
+    cv2_imshow(image)
+            </code></pre>
+            <p><strong>Результат:</strong></p>
+            <img src="photo/io.png" alt="Пример изображения с прямоугольником" width="500">
+
+            <h3>Круг</h3>
+            <p>Функция <code>cv2.circle</code> добавляет круг.</p>
+            <pre><code>
+cv2.circle(image, center, radius, color, thickness)
+# center: координаты центра круга
+# radius: радиус круга
+# color: цвет (например, (0, 0, 255) для красного)
+# thickness: толщина линии (-1 для заливки)
+            </code></pre>
+            <p>Пример:</p>
+            <pre><code>
+# Загружаем изображение
+image = cv2.imread("example8.jpg")
+
+if image is None:
+    print("Ошибка: изображение не загружено.")
+else:
+    color = (255, 0, 0)  # Синий цвет
+    thickness = 2
+    
+    center = (260, 260)  # Координаты центра круга в формате (x, y)
+    radius = 75
+    
+    # Рисуем круг
+    cv2.circle(image, center, radius, color, thickness)
+
+    # Сохраняем изображение
+    cv2.imwrite("gaga.jpg", image)
+
+    # Отображаем результат с использованием cv2_imshow
+    cv2_imshow(image)
+                
+            </code></pre>
+            <p><strong>Результат:</strong></p>
+            <img src="photo/gaga.jpg" alt="Пример изображения с кругом" width="500">
+
+            <h3>Линия</h3>
+            <p>Функция <code>cv2.line</code> добавляет линию.</p>
+            <pre><code>
+cv2.line(image, pt1, pt2, color, thickness)
+# pt1: начальная точка
+# pt2: конечная точка
+# color: цвет линии
+# thickness: толщина линии
+            </code></pre>
+            <p>Пример:</p>
+            <pre><code>
+# Загружаем изображение
+image = cv2.imread("example8.jpg")
+
+if image is None:
+    print("Ошибка: изображение не загружено.")
+else:
+    color = (255, 0, 0)  # Синий цвет
+    thickness = 2
+    pt1 = (100, 100)
+    pt2 = (500, 500)
+    cv2.line(image, pt1, pt2, color, thickness)
+    # pt1: координаты верхнего левого угла
+    # pt2: координаты нижнего правого угла
+    # color: цвет (например, (0, 255, 0) для зеленого)
+    # thickness: толщина линии (-1 для заливки)
+
+    # Сохраняем изображение
+    cv2.imwrite("gygy.jpg", image)
+
+    # Отображаем результат с использованием cv2_imshow
+    cv2_imshow(image)
+            </code></pre>
+            <p><strong>Результат:</strong></p>
+            <img src="photo/gygy.jpg" alt="Пример изображения с линией" width="500">
+        </section>
+        <section id="navigation">
+            <h2>Дальнейшее изучение</h2>
+            <p><a href="tessing.html">Перейти к разделу "Извлечение текста из изображения".</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 OpenCV Guide. Все права защищены.</p>
+    </footer>
+</body>
+</html>

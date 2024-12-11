@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenCV: Введение и История</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html" class="active">Главная</a></li>
+                <li><a href="components.html">Отображение и сохранение</a></li>
+                <li><a href="cropping.html">Обрезание</a></li>
+                <li><a href="rotate.html">Поворот</a></li>
+                <li><a href="blurring.html">Размытие</a></li>
+                <li><a href="filters.html">Фильтры</a></li>
+                <li><a href="correcter.html">Коррекция освещенности</a></li>
+                <li><a href="conture.html">Работа с контурами</a></li>
+                <li><a href="morfologia.html">Морфологические операции</a></li>
+                <li><a href="Gistogram.html">Работа с гистограммами</a></li>
+                <li><a href="colibrovka.html">Калибровка изображений</a></li>
+                <li><a href="mastab.html">Интерполяция и масштабирование изображений</a></li>
+                <li><a href="algebra.html">Алгебраические операции между двумя изображениями</a></li>
+                <li><a href="texting.html">Добавление текстов и форм</a></li>
+                <li><a href="tessing.html">Извлечение текста с изображений</a></li>
+                <li><a href="obrabotka.html">Обработка больших изображений</a></li>
+                <li><a href="ROI.html">ROI из изображения</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <header class="intro-header">
+        <h1>OpenCV: Введение и История</h1>
+        <nav>
+            <ul class="sub-nav">
+                <li><a href="#intro">Введение</a></li>
+                <li><a href="#history">История</a></li>
+                <li><a href="#usage">Зачем использовать?</a></li>
+                <li><a href="#install">Установка</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article id="intro">
+            <h2>Что такое OpenCV?</h2>
+            <p><strong>OpenCV (Open Source Computer Vision Library)</strong> — это библиотека с открытым исходным кодом, которая предоставляет инструменты для решения задач в области компьютерного зрения и обработки изображений. Она широко используется в различных приложениях: от научных исследований до промышленной автоматизации.</p>
+            <p>Библиотека поддерживает следующие языки программирования: C++, Python, Java, MATLAB и другие. Благодаря этому её можно использовать на разных платформах, включая Windows, Linux, macOS и мобильные устройства на базе iOS и Android.</p>
+            <p>OpenCV включает в себя модули для работы с изображениями, видео, анализом движения, машинным обучением и глубоким обучением.</p>
+        </article>
+
+        <article id="history">
+            <h2>История библиотеки</h2>
+            <p>OpenCV была разработана в исследовательском подразделении Intel в 1999 году. Основной целью было создание эффективного инструмента для компьютерного зрения, который был бы доступен широкой аудитории.</p>
+            <ul>
+                <li><strong>1999</strong>: Начало разработки в Intel Research.</li>
+                <li><strong>Основатель</strong>: Гэри Брэдски, специалист в области компьютерного зрения.</li>
+                <li><strong>2008</strong>: OpenCV стала распространяться по лицензии BSD, что сделало её полностью бесплатной для коммерческого и некоммерческого использования.</li>
+                <li><strong>2012</strong>: Библиотека получила поддержку машинного обучения через интеграцию с библиотекой ML.</li>
+                <li><strong>2015</strong>: Включение модулей для работы с глубоким обучением, таких как DNN (Deep Neural Network).</li>
+                <li><strong>2020-е</strong>: OpenCV активно развивается, поддерживая самые современные методы анализа данных, включая интеграцию с TensorFlow и PyTorch.</li>
+            </ul>
+        </article>
+
+        <article id="usage">
+            <h2>Зачем использовать OpenCV?</h2>
+            <section>
+                <h3>Обработка изображений</h3>
+                <p>OpenCV предоставляет широкий набор инструментов для работы с изображениями:</p>
+                <ul>
+                    <li>Преобразование цветовых пространств (например, RGB в HSV, Grayscale).</li>
+                    <li>Применение различных фильтров, таких как размытие, повышение резкости.</li>
+                    <li>Выделение контуров и объектов на изображениях.</li>
+                    <li>Обнаружение и устранение шума на изображениях.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Обработка видео (в докладе по тз не надо рассматривать, но упомянуть стоит)</h3>
+                <p>OpenCV поддерживает работу с видеопотоками в реальном времени:</p>
+                <ul>
+                    <li>Захват кадров с камеры или видеофайла.</li>
+                    <li>Анализ движения, включая отслеживание объектов.</li>
+                    <li>Создание видеосистем для распознавания лиц, жестов и событий.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Машинное обучение и глубокое обучение</h3>
+                <p>Модуль ML в OpenCV поддерживает:</p>
+                <ul>
+                    <li>Классификаторы на основе SVM, KNN, Decision Trees.</li>
+                    <li>Обучение моделей на основе данных изображений.</li>
+                    <li>Интеграцию с моделями глубокого обучения, созданными в TensorFlow, PyTorch и Caffe.</li>
+                </ul>
+            </section>
+        </article>
+
+        <article id="install">
+            <h2>Установка OpenCV</h2>
+            <h3>1. Установка через pip</h3>
+            <p>Для Python:</p>
+            <pre><code>pip install opencv-python</code></pre>
+            <p>Дополнительно для работы с GUI:</p>
+            <pre><code>pip install opencv-python-headless</code></pre>
+
+            <h3>2. Установка через систему управления пакетами</h3>
+            <p>Для Ubuntu:</p>
+            <pre><code>sudo apt-get install libopencv-dev python3-opencv</code></pre>
+            <p>Для macOS через Homebrew:</p>
+            <pre><code>brew install opencv</code></pre>
+
+            <h3>3. Проверка установки</h3>
+            <pre><code>import cv2
+print(cv2.version)</code></pre>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 OpenCV Доклад. Все права защищены.</p>
+    </footer>
+</body>
+</html>

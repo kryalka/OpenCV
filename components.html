@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основные компоненты OpenCV</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h1>Основные компоненты OpenCV</h1>
+            <p>Библиотека OpenCV предоставляет широкий спектр функций для работы с изображениями и видео. Ниже рассмотрим основные возможности: загрузка, отображение и сохранение изображений.</p>
+        </section>
+
+        <section id="load-images">
+            <h2>Загрузка изображений</h2>
+            <p>Для загрузки изображений используется функция <code>cv2.imread()</code>, которая преобразует изображение в массив NumPy.</p>
+
+            <h3>Синтаксис <code>cv2.imread()</code></h3>
+            <pre><code>cv2.imread(filename, flags)</code></pre>
+            <ul>
+                <li><code>cv2.IMREAD_COLOR</code> — загружает цветное изображение (по умолчанию).</li>
+                <li><code>cv2.IMREAD_GRAYSCALE</code> — загружает изображение в оттенках серого.</li>
+                <li><code>cv2.IMREAD_UNCHANGED</code> — загружает изображение с альфа-каналом.</li>
+            </ul>
+
+            <h3>Примеры загрузки</h3>
+            <article>
+                <h4>Цветное изображение</h4>
+                <pre><code>import cv2
+image = cv2.imread('example1.jpg', cv2.IMREAD_COLOR)
+cv2.imshow('Цветное изображение', image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()</code></pre>
+                <figure>
+                    <img src="photo/example1.jpg" alt="Цветное изображение морской свинки" width="500">
+                    <figcaption>Пример цветного изображения.</figcaption>
+                </figure>
+            </article>
+            
+            <article>
+                <h4>Изображение в оттенках серого</h4>
+                <pre><code>gray_image = cv2.imread('example1.jpg', cv2.IMREAD_GRAYSCALE)
+cv2.imshow('Оттенки серого', gray_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()</code></pre>
+                <figure>
+                    <img src="photo/gray_new.jpg" alt="Морская свинка в оттенках серого" width="500">
+                    <figcaption>Пример изображения в оттенках серого.</figcaption>
+                </figure>
+            </article>
+        </section>
+
+        <section id="display-images">
+            <h2>Отображение изображений</h2>
+            <p>Для отображения изображений используется <code>cv2.imshow()</code>. В случае работы с Google Colab или Jupyter Notebook рекомендуется использовать Matplotlib.</p>
+            <pre><code>import cv2
+import matplotlib.pyplot as plt
+
+image = cv2.imread('example1.jpg')
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+plt.imshow(image_rgb)
+plt.axis('off')
+plt.show()</code></pre>
+            <figure>
+                <img src="photo/example1.jpg" alt="Морская свинка в цветовой модели RGB" width="500">
+                <figcaption>Пример отображения изображения с использованием Matplotlib.</figcaption>
+            </figure>
+        </section>
+
+        <section id="save-images">
+            <h2>Сохранение изображений</h2>
+            <p>OpenCV позволяет сохранять обработанные изображения с помощью функции <code>cv2.imwrite()</code>. Например:</p>
+            <pre><code>cv2.imwrite('output.jpg', image)</code></pre>
+            <p>Для JPEG можно задать качество:</p>
+            <pre><code>cv2.imwrite('output_90.jpg', image, [cv2.IMWRITE_JPEG_QUALITY, 90])</code></pre>
+            <p>Сохранение с альфа-каналом:</p>
+            <pre><code>cv2.imwrite('output_with_alpha.png', image_with_alpha)</code></pre>
+        </section>
+
+        <section id="navigation">
+            <h2>Дальнейшее изучение</h2>
+            <p><a href="cropping.html">Перейти к разделу "Обрезка изображений"</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 OpenCV Guide. Все права защищены.</p>
+    </footer>
+</body>
+</html>

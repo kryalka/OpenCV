@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фильтры для обработки изображений</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <header>
+        <h1>Фильтры для обработки изображений</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Что такое фильтры для изображений?</h2>
+            <p>Фильтры для изображений — это алгоритмы, которые изменяют или улучшают изображение. Они применяются для устранения шума, улучшения контрастности, распознавания границ и других задач. Ниже рассмотрены примеры популярных фильтров.</p>
+        </section>
+
+        <section>
+            <h2>1. Резкость (Sharpen)</h2>
+            <p>Фильтр резкости увеличивает контрастность и подчеркивает края объектов на изображении.</p>
+            <h4>Синтаксис:</h4>
+            <p>
+                <code>cv2.filter2D(src, ddepth, kernel)</code>  
+                <ul>
+                    <li><strong>src</strong>: Входное изображение.</li>
+                    <li><strong>ddepth</strong>: Глубина выходного изображения (-1 для сохранения исходного).</li>
+                    <li><strong>kernel</strong>: Ядро свертки (матрица для фильтра).</li>
+                </ul>
+            </p>
+            <h4>Пример:</h4>
+            <pre><code>
+import cv2
+import numpy as np
+
+def apply_sharpening(image_path):
+    image = cv2.imread(image_path)
+    kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+    sharpened_image = cv2.filter2D(image, -1, kernel)
+    cv2.imwrite('sharpened_image.jpg', sharpened_image)
+
+apply_sharpening('input_image.jpg')
+            </code></pre>
+            <h4>Результат:</h4>
+            <img src="blurred_image1.jpg" alt="Усиление резкости" width="400">
+            <img src="example6.jpg" alt="Усиление резкости" width="400">
+        </section>
+
+        <section>
+            <h2>2. Удаление шума (Denoising)</h2>
+            <p>Этот фильтр удаляет шум с изображения, сохраняя важные детали.</p>
+            <h4>Синтаксис:</h4>
+            <p>
+                <code>cv2.bilateralFilter(src, d, sigmaColor, sigmaSpace)</code>  
+                <ul>
+                    <li><strong>src</strong>: Входное изображение.</li>
+                    <li><strong>d</strong>: Диаметр каждого пикселя для фильтрации.</li>
+                    <li><strong>sigmaColor</strong>: Фильтрация по цвету.</li>
+                    <li><strong>sigmaSpace</strong>: Фильтрация по пространству.</li>
+                </ul>
+            </p>
+            <h4>Пример:</h4>
+            <pre><code>
+import cv2
+
+def apply_denoising(image_path):
+    image = cv2.imread(image_path)
+    denoised_image = cv2.bilateralFilter(image, 9, 75, 75)
+    cv2.imwrite('denoised_image.jpg', denoised_image)
+
+apply_denoising('input_image.jpg')
+            </code></pre>
+            <h4>Результат:</h4>
+            <img src="shym.jpg" alt="Удаление шума" width="400">
+            <img src="denoised_image2.jpg" alt="Удаление шума" width="400">
+        </section>
+
+        <section>
+            <h2>3. Градиентный фильтр</h2>
+            <p>Градиентные фильтры выделяют области с резкими изменениями яркости.</p>
+            <h4>Синтаксис:</h4>
+            <p>
+                <code>cv2.Sobel(src, ddepth, dx, dy, ksize)</code>  
+                <ul>
+                    <li><strong>src</strong>: Входное изображение.</li>
+                    <li><strong>ddepth</strong>: Глубина выходного изображения.</li>
+                    <li><strong>dx</strong>: Порядок производной по x.</li>
+                    <li><strong>dy</strong>: Порядок производной по y.</li>
+                    <li><strong>ksize</strong>: Размер ядра фильтра.</li>
+                </ul>
+            </p>
+            <h4>Пример:</h4>
+            <pre><code>
+import cv2
+
+def apply_sobel_filter(image_path):
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    grad_x = cv2.Sobel(image, cv2.CV_64F, 1, 0, ksize=3)
+    grad_y = cv2.Sobel(image, cv2.CV_64F, 0, 1, ksize=3)
+    gradient = cv2.addWeighted(cv2.convertScaleAbs(grad_x), 0.5, 
+                               cv2.convertScaleAbs(grad_y), 0.5, 0)
+    cv2.imwrite('sobel_gradient.jpg', gradient)
+
+apply_sobel_filter('input_image.jpg')
+            </code></pre>
+            <h4>Результат:</h4>
+            <img src="sobel_gradient.jpg" alt="Градиентный фильтр" width="400">
+            <img src="sobel_gradient1.jpg" alt="Градиентный фильтр" width="400">
+            <img src="sobel_gradient2.jpg" alt="Градиентный фильтр" width="400">
+        </section>
+
+        <section>
+            <h2>4. Сепия</h2>
+            <p>Сепия — это фильтр, который придает изображению теплый коричневатый оттенок.</p>
+            <h4>Синтаксис:</h4>
+            <p>
+                <code>cv2.transform(src, kernel)</code>  
+                <ul>
+                    <li><strong>src</strong>: Входное изображение.</li>
+                    <li><strong>kernel</strong>: Матрица преобразования.</li>
+                </ul>
+            </p>
+            <h4>Пример:</h4>
+            <pre><code>
+import cv2
+import numpy as np
+
+def apply_sepia(image_path):
+    image = cv2.imread(image_path)
+    kernel = np.array([[0.393, 0.769, 0.189], 
+                       [0.349, 0.686, 0.168], 
+                       [0.272, 0.534, 0.131]])
+    sepia_image = cv2.transform(image, kernel)
+    sepia_image = np.clip(sepia_image, 0, 255)
+    cv2.imwrite('sepia_image.jpg', sepia_image)
+
+apply_sepia('input_image.jpg')
+            </code></pre>
+            <h4>Результат:</h4>
+            <img src="sepia_image.jpg" alt="Эффект сепии" width="400">
+        </section>
+
+        <section>
+            <h2>5. Инверсия цветов</h2>
+            <p>Фильтр инверсии меняет цвета на их противоположные.</p>
+            <h4>Синтаксис:</h4>
+            <p>
+                <code>cv2.bitwise_not(src)</code>  
+                <ul>
+                    <li><strong>src</strong>: Входное изображение.</li>
+                </ul>
+            </p>
+            <h4>Пример:</h4>
+            <pre><code>
+import cv2
+
+def invert_colors(image_path):
+    image = cv2.imread(image_path)
+    inverted_image = cv2.bitwise_not(image)
+    cv2.imwrite('inverted_image.jpg', inverted_image)
+
+invert_colors('input_image.jpg')
+            </code></pre>
+            <h4>Результат:</h4>
+            <img src="inverted_image.jpg" alt="Инверсия цветов" width="400">
+        </section>
+
+        <section>
+            <h2>6. Пороговая фильтрация (Thresholding)</h2>
+            <p>Пороговая фильтрация создает бинарное изображение.</p>
+            <h4>Синтаксис:</h4>
+            <p>
+                <code>cv2.threshold(src, thresh, maxval, type)</code>  
+                <ul>
+                    <li><strong>src</strong>: Входное изображение (в оттенках серого).</li>
+                    <li><strong>thresh</strong>: Пороговое значение.</li>
+                    <li><strong>maxval</strong>: Максимальное значение после порогового преобразования.</li>
+                    <li><strong>type</strong>: Тип порогового преобразования.</li>
+                </ul>
+            </p>
+            <h4>Пример:</h4>
+            <pre><code>
+import cv2
+
+def apply_threshold(image_path):
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    _, threshold_image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+    cv2.imwrite('threshold_image.jpg', threshold_image)
+
+apply_threshold('input_image.jpg')
+            </code></pre>
+            <h4>Результат:</h4>
+            <img src="threshold_image.jpg" alt="Пороговая фильтрация" width="400">
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Image Processing Guide. Все права защищены.</p>
+    </footer>
+</body>
+</html>

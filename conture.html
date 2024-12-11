@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обработка изображений в OpenCV</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+            </ul>
+        </nav>
+    </header>
+    <header>
+        <h1>Обработка изображений с OpenCV</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Контуры</h2>
+            <h3>Описание и синтаксис</h3>
+            <p>Функция <code>cv2.findContours</code> используется для нахождения контуров в бинарных изображениях. Она возвращает список точек, описывающих контуры, и иерархию вложенности.</p>
+            <p><strong>Синтаксис:</strong></p>
+            <pre><code>contours, hierarchy = cv2.findContours(image, mode, method)</code></pre>
+            <ul>
+                <li><code>image</code>: бинарное изображение.</li>
+                <li><code>mode</code>: режим извлечения контуров (<code>cv2.RETR_TREE</code>, <code>cv2.RETR_EXTERNAL</code> и др.).</li>
+                <li><code>method</code>: метод аппроксимации контуров (<code>cv2.CHAIN_APPROX_SIMPLE</code>, <code>cv2.CHAIN_APPROX_NONE</code>).</li>
+            </ul>
+            <h3>Загрузка изображения</h3>
+            <pre><code># Загрузка изображения
+image = cv2.imread('example3.jpg')
+
+# Вывод изображения
+show_image(image, "Котик?")</code></pre>
+            <p><strong>Исходное изображение:</strong></p>
+            <img src="photo/v0.png" alt="Исходное изображение" width="500">
+
+            <h3>Нахождение контуров</h3>
+            <pre><code># Преобразование в оттенки серого
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Нахождение границ
+edges = cv2.Canny(gray, 100, 200)
+
+# Поиск контуров
+contours, _ = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+# Рисование контуров
+contour_image = image.copy()
+cv2.drawContours(contour_image, contours, -1, (0, 255, 0), 2)
+
+# Вывод изображения
+show_image(contour_image, "Contours")</code></pre>
+            <p><strong>Результат:</strong></p>
+            <img src="photo/v1.png" alt="Найденные контуры " width="500">
+
+            <h3>Рисование контуров</h3>
+            <pre><code># Заполнение контуров
+filled_contour_image = image.copy()
+cv2.drawContours(filled_contour_image, contours, -1, (255, 0, 0), -1)
+
+# Вывод изображения
+show_image(filled_contour_image, "НУУ")</code></pre>
+            <p><strong>Результат:</strong></p>
+            <img src="photo/v2.png" alt="Заполненные контуры" width="500">
+
+            <h3>Детектирование краев (Canny Edge)</h3>
+            <pre><code># Детектирование краев
+edges = cv2.Canny(image, 100, 200)
+
+# Вывод изображения
+plt.imshow(edges, cmap='gray')
+plt.title("АААААА страшно (но мы нашли границы котика, которая белка)")
+plt.axis('off')
+plt.show()</code></pre>
+            <p><strong>Результат:</strong></p>
+            <img src="photo/v3.png" alt="Детектирование краев" width="500">
+        </section>
+
+        <section>
+            <h2>Обнаружение и распознавание объектов</h2>
+            <h3>Описание и синтаксис</h3>
+            <p>Функция <code>cv2.CascadeClassifier</code> используется для обнаружения объектов (например, лиц) с помощью заранее обученных моделей.</p>
+            <p><strong>Синтаксис:</strong></p>
+            <pre><code>face_cascade = cv2.CascadeClassifier(path_to_cascade)
+faces = face_cascade.detectMultiScale(image, scaleFactor, minNeighbors)</code></pre>
+            <ul>
+                <li><code>path_to_cascade</code>: путь к файлу каскада.</li>
+                <li><code>image</code>: изображение в оттенках серого.</li>
+                <li><code>scaleFactor</code>: шаг уменьшения размера изображения.</li>
+                <li><code>minNeighbors</code>: минимальное число соседей для подтверждения обнаружения.</li>
+            </ul>
+
+            <h3>Код</h3>
+            <pre><code># Загрузка изображения
+image = cv2.imread('example6.jpg')
+
+# Вывод изображения
+show_image(image, "Люди")
+
+# Преобразование в оттенки серого
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Загрузка каскада для обнаружения лиц
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+# Поиск лиц
+faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+
+# Рисование рамок
+for (x, y, w, h) in faces:
+    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+# Вывод изображения
+show_image(image, "Обнаруженные лица")</code></pre>
+            <p><strong>Исходное изображение:</strong></p>
+            <img src="photo/v00.png" alt="Исходное изображение с людьми" width="500">
+
+            <p><strong>Результат:</strong></p>
+            <img src="photo/v4.png" alt="Обнаруженные лица" width="500">
+        </section>
+        <section id="navigation">
+            <h2>Дальнейшее изучение</h2>
+            <p><a href="morfologia.html">Перейти к разделу "Морфологические операции".</a></p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 OpenCV Guide. Все права защищены.</p>
+    </footer>
+</body>
+</html>

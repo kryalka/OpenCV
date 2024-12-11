@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фильтры для размытия изображения</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+            </ul>
+        </nav>
+    </header>
+    <header>
+        <h1>Размытие изображений в OpenCV</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Гауссово размытие (Gaussian Blur)</h2>
+            <p>
+                Гауссово размытие используется для удаления шума и сглаживания изображения. Этот фильтр применяет ядро Гаусса, которое даёт мягкое размытие. 
+                Это основной инструмент для предварительной обработки изображений перед выполнением операций, таких как выделение контуров или детектирование объектов.
+            </p>
+            <ul>
+                <li><strong>Функция:</strong> <code>cv2.GaussianBlur()</code></li>
+                <li><strong>Параметры:</strong>
+                    <ul>
+                        <li><code>ksize</code>: Размер ядра фильтра (только нечётные числа!!!).</li>
+                        <li><code>sigmaX</code>: Стандартное отклонение по оси X (по умолчанию 0).</li>
+                    </ul>
+                </li>
+            </ul>
+            <pre><code>image = cv2.imread('example6.jpg')
+show_image(image, "Обычная")
+blurred_image = cv2.GaussianBlur(image, (21, 21), 100)
+show_image(blurred_image, "Гауссовская")</code></pre>
+            <img src="photo/blurred_image1.jpg" alt="Гауссово размытие" width="500">
+            <figcaption>Гауссовкая</figcaption>
+        </section>
+
+        <section>
+            <h2>Медианный фильтр (Median Blur)</h2>
+            <p>
+                Медианный фильтр применяется для устранения шума "соль и перец" (salt-and-pepper noise), заменяя пиксели на медиану их соседей. 
+                Это полезно, если на изображении присутствуют отдельные шумные элементы.
+            </p>
+            <ul>
+                <li><strong>Функция:</strong> <code>cv2.medianBlur()</code></li>
+                <li><strong>Параметры:</strong>
+                    <ul>
+                        <li><code>ksize</code>: Размер ядра (должен быть нечётным числом).</li>
+                    </ul>
+                </li>
+            </ul>
+            <pre><code>median_filtered_image = cv2.medianBlur(image, 25)
+show_image(median_filtered_image, "Медианная")</code></pre>
+            <img src="photo/blurred_image2.jpg" alt="Медианный фильтр" width="500">
+            <figcaption>Медианная</figcaption>
+        </section>
+
+        <section>
+            <h2>Усреднённое размытие (Averaging Blur)</h2>
+            <p>
+                Каждый пиксель заменяется на среднее значение его соседей в указанном окне. Это простой способ сглаживания изображения.
+            </p>
+            <ul>
+                <li><strong>Функция:</strong> <code>cv2.blur()</code></li>
+                <li><strong>Параметры:</strong>
+                    <ul>
+                        <li><code>ksize</code>: Размер ядра размытия.</li>
+                    </ul>
+                </li>
+            </ul>
+            <pre><code>blurred = cv2.blur(image, (14, 14))
+show_image(blurred, "Размытая")</code></pre>
+            <img src="photo/blurred_image3.jpg" alt="Усреднённое размытие" width="500">
+            <figcaption>Размытая</figcaption>
+        </section>
+
+        <section>
+            <h2>Билатеральное размытие (Bilateral Filter)</h2>
+            <p>
+                Удаляет шум, сохраняя края. Это достигается за счёт использования как пространственной, так и интенсивностной разницы.
+            </p>
+            <ul>
+                <li><strong>Функция:</strong> <code>cv2.bilateralFilter()</code></li>
+                <li><strong>Параметры:</strong>
+                    <ul>
+                        <li><code>d</code>: Диаметр ядра фильтра.</li>
+                        <li><code>sigmaColor</code>: Степень размытия по интенсивности (различие цветов).</li>
+                        <li><code>sigmaSpace</code>: Степень размытия по пространству (различие координат).</li>
+                    </ul>
+                </li>
+            </ul>
+            <pre><code>blurred = cv2.bilateralFilter(image, 20, 75, 75)
+show_image(blurred, "Как нарисованная")</code></pre>
+            <img src="photo/blurred_image4.jpg" alt="Билатеральное размытие" width="500">
+            <figcaption>Заблюренная</figcaption>
+        </section>
+
+        <section>
+            <h2>Размытие по прямоугольной области (Box Filter)</h2>
+            <p>
+                Выполняет простую свёртку с равномерным ядром (каждое значение ядра одинаково), но позволяет управлять нормализацией.
+            </p>
+            <ul>
+                <li><strong>Функция:</strong> <code>cv2.boxFilter()</code></li>
+                <li><strong>Параметры:</strong>
+                    <ul>
+                        <li><code>ksize</code>: Размер ядра.</li>
+                        <li><code>normalize</code>: Если <code>True</code>, ядро нормализуется.</li>
+                    </ul>
+                </li>
+            </ul>
+            <pre><code>blurred = cv2.boxFilter(image, -1, (15, 15), normalize=True)
+show_image(blurred, "Как-то скучно")</code></pre>
+            <img src="photo/blurred_image5.jpg" alt="Размытие по прямоугольной области" width="500">
+            <figcaption>Ну такооое...</figcaption>
+        </section>
+
+        <section>
+            <h2>Сепарабельное размытие (Separable Filter Blur)</h2>
+            <p>
+                Используется, когда фильтр может быть разделён на два одномерных ядра (по X и Y), например, для ускорения выполнения фильтрации.
+            </p>
+            <ul>
+                <li><strong>Функция:</strong> <code>cv2.sepFilter2D()</code></li>
+                <li><strong>Параметры:</strong>
+                    <ul>
+                        <li><code>kernelX</code>: Ядро по оси X.</li>
+                        <li><code>kernelY</code>: Ядро по оси Y.</li>
+                    </ul>
+                </li>
+            </ul>
+            <pre><code>kernelX = cv2.getGaussianKernel(250, 10)
+kernelY = cv2.getGaussianKernel(15, 1)
+blurred = cv2.sepFilter2D(image, -1, kernelX, kernelY)
+show_image(blurred, "Приколдес")</code></pre>
+            <img src="photo/blurred_image6.jpg" alt="Сепарабельное размытие" width="500">
+            <figcaption>Приколдесная</figcaption>
+        </section>
+        <section id="navigation">
+            <h2>Дальнейшее изучение</h2>
+            <p><a href="correcter.html">Перейти к разделу "Коррекция освещенности изображений".</a></p>
+        </section>
+    </main>
+</body>
+</html>
