@@ -107,72 +107,7 @@ cropped_image = image[y1:y2, x1:x2]</code></pre>
             <img src="photo/help.jpg" alt="Обрезка с учётом размера" width="500">
             <figcaption>ААААА</figcaption>
         </section>
-        <section id="navigat<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Обрезка изображений в OpenCV</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Главная</a></li>
-            </ul>
-        </nav>
-    </header>
-    <header>
-        <h1>Обрезка изображений в OpenCV</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Формат изображения</h2>
-            <p>В OpenCV изображения представлены как многомерные массивы (NumPy) с размерностью <code>(height, width, channels)</code>. Это позволяет легко обращаться к пикселям для выполнения операций, таких как обрезка.</p>
-
-            <h2>Индексация для обрезки</h2>
-            <p>Чтобы вырезать часть изображения, можно использовать индексацию:</p>
-            <pre><code>image[y1:y2, x1:x2]</code></pre>
-            <p>где:</p>
-            <ul>
-                <li><code>y1</code> и <code>y2</code> — координаты по оси Y</li>
-                <li><code>x1</code> и <code>x2</code> — координаты по оси X</li>
-            </ul>
-        </section>
-
-        <section>
-            <h3>Пример обрезки изображения</h3>
-            <pre><code>import cv2
-
-# Загрузка изображения
-image = cv2.imread('example2.jpg')
-
-# Определение областей обрезки
-height, width, _ = image.shape
-y1, y2 = int(height / 4), int(height / 2)
-x1, x2 = int(width / 4), int(width / 2)
-
-# Обрезка
-cropped_image = image[y1:y2, x1:x2]</code></pre>
-            <img src="photo/example2.jpg" alt="Наш исходник" width="500">
-            <figcaption>Целая</figcaption>
-            <img src="photo/nose.jpg" alt="Носик" width="500">
-            <figcaption>Носик</figcaption>
-        </section>
-
-        <section>
-            <h2>Обрезка с учётом пропорций</h2>
-            <p>Чтобы сохранить пропорции (например, 4:3), нужно рассчитать координаты так, чтобы они соответствовали нужному соотношению сторон:</p>
-            <pre><code>aspect_ratio = 4 / 3
-
-# Новые размеры
-new_width = width
-new_height = int(new_width / aspect_ratio)
-
-if new_height > height:
-    new_height = height
-</html>ion">
+        <section id="navigation">
             <h2>Дальнейшее изучение</h2>
             <p><a href="rotate.html">Перейти к разделу "Поворот и сдвиг изображений".</a></p>
         </section>
